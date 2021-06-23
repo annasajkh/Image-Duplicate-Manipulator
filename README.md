@@ -1,5 +1,5 @@
 # Image-Duplicate-Manipulater
-trying sdl2 it is hard lol\ 
+this is me trying sdl2  and it was hard lol
 
 # Compile And Run
 cd to the dir\
@@ -7,3 +7,8 @@ run\
 \>make\
 then run\
 \>./TestSDL2
+
+# Control
+Scroll -> repeat horizontal and vertical\
+Scroll + Q -> repeat vertical\
+Scroll + W -> repeat horizontal
