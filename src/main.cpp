@@ -1,8 +1,6 @@
-
 #include <stdio.h>
-#include <GL/glew.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include "../sdl2/include/SDL2/SDL.h"
+#include "../sdl2/include/SDL2/SDL_image.h"
 #include <iostream>
 
 #define SCREEN_SIZE_X 800
@@ -11,10 +9,9 @@
 static size_t image_count_x = 1;
 static size_t image_count_y = 1;
 
-
-int main (int argc, char* argv[])
+int SDL_main (int argc, char* argv[])
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
+    // SDL_Init(SDL_INIT_EVERYTHING);
 
     SDL_Window* window = SDL_CreateWindow("TestSDL2", 
                                           SDL_WINDOWPOS_CENTERED,
@@ -27,24 +24,11 @@ int main (int argc, char* argv[])
                                                 -1, 
                                                 SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-    SDL_Texture *texture = IMG_LoadTexture(renderer,"image.jpg");
-
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-
-    SDL_GLContext glContext = SDL_GL_CreateContext(window);
-
-    SDL_GL_SetSwapInterval(1);
-
-    glewInit();
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    SDL_Texture *texture = IMG_LoadTexture(renderer, "image.png");
+    if (texture == nullptr) {
+        std::cout << SDL_GetError();
+        std::abort();
+    }
 
     bool quit = false;
 
@@ -110,29 +94,26 @@ int main (int argc, char* argv[])
         size_t x_percent = SCREEN_SIZE_X / image_count_x;
         size_t y_percent = SCREEN_SIZE_Y / image_count_y;
 
-        SDL_Rect* dst = new SDL_Rect;
+        SDL_Rect dst;
 
         for (size_t i = 0; i < image_count_x; i++)
         {
             for (size_t j = 0; j < image_count_y; j++)
             {
-                dst->x = i * x_percent;
-                dst->y = j * y_percent;
-                dst->w = x_percent;
-                dst->h = y_percent;
+                dst.x = i * x_percent;
+                dst.y = j * y_percent;
+                dst.w = x_percent;
+                dst.h = y_percent;
 
-                SDL_RenderCopy(renderer, texture, NULL, dst);
+                SDL_RenderCopy(renderer, texture, NULL, &dst);
             }
             
         }
         
         SDL_RenderPresent(renderer);
-
-        delete dst;
     }
 
     //clean up
-    SDL_GL_DeleteContext(glContext);
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
