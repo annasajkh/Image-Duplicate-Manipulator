@@ -3,5 +3,5 @@ trying sdl2 it is hard lol\
 
 # Compile And Run
 cd to the dir\
-run make\
+run |make\|
 the run ./TestSDL2
