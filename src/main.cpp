@@ -1,16 +1,16 @@
 #include <stdio.h>
-#include "../sdl2/include/SDL2/SDL.h"
-#include "../sdl2/include/SDL2/SDL_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 
 constexpr int screen_size_x = 800;
 constexpr int screen_size_y = 600;
 
 // size_t here causes crash if scrolling too fast
-static long image_count_x = 1;
-static long image_count_y = 1;
+static unsigned long image_count_x = 1;
+static unsigned long image_count_y = 1;
 
-int SDL_main (int argc, char* argv[])
+int main()
 {
     SDL_Window *window = SDL_CreateWindow("TestSDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_size_x, screen_size_y, SDL_WINDOW_SHOWN);
 
@@ -79,9 +79,9 @@ int SDL_main (int argc, char* argv[])
 
         SDL_Rect dst;
 
-        for (size_t i = 0; i < image_count_x; i++)
+        for (unsigned long i = 0; i < image_count_x; i++)
         {
-            for (size_t j = 0; j < image_count_y; j++)
+            for (unsigned long j = 0; j < image_count_y; j++)
             {
                 dst.x = i * x_percent;
                 dst.y = j * y_percent;
